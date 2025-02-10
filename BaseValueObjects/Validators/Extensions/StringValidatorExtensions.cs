@@ -54,13 +54,13 @@ public static class StringValidatorExtensions
     }
 
     public const string SetContainInvalidCharErrorMessage = 
-    $"Text cannot has mandatory char: {ErrorResponse.ReferenceToVariable}.";
+    $"Text cannot has this char: {ErrorResponse.ReferenceToVariable}.";
     public static IValueValidator<string> SetNotContainsChar(
         this IValueValidator<string> validator, 
         char verifyChar,
         string errorMessage = SetContainInvalidCharErrorMessage)
     {
-        if (!validator.Value.Contains(verifyChar))
+        if (validator.Value.Contains(verifyChar))
             validator.AddError(ErrorResponse.InvalidTypeError(errorMessage, verifyChar));
 
         return validator;
@@ -80,11 +80,24 @@ public static class StringValidatorExtensions
     }
 
     public const string ContainInvalidSubstringErrorMessage = 
+    $"Text need mandatory substring: {ErrorResponse.ReferenceToVariable}.";
+    public static IValueValidator<string> SetNotContainsSubstring(
+        this IValueValidator<string> validator, 
+        string neededSubstring,
+        string errorMessage = NotContainSubstringErrorMessage)
+    {
+        if (validator.Value.Contains(neededSubstring))
+            validator.AddError(ErrorResponse.InvalidTypeError(errorMessage, neededSubstring));
+
+        return validator;
+    }
+
+    public const string IsInvalidStringErrorMessage = 
     $"Invalid text type: {ErrorResponse.ReferenceToVariable}.";
     public static IValueValidator<string> SetRegexValidation(
         this IValueValidator<string> validator, 
         string regexPattern,
-        string errorMessage = SetNotContainCharErrorMessage)
+        string errorMessage = IsInvalidStringErrorMessage)
     {
         if (!Regex.IsMatch(validator.Value, regexPattern))
             validator.AddError(ErrorResponse.InvalidTypeError(errorMessage, regexPattern));

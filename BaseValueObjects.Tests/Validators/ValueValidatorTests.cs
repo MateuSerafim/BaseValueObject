@@ -95,6 +95,25 @@ public class ValueValidatorTests
         Assert.Equal(messageError1, validator.Errors[0].ErrorMessage());
     }
 
+    [Fact(DisplayName = "TVV-2.04: Add null error to validator.")]
+    public void AddnullErrorToValidator()
+    {
+        // Given
+        Fixture fixture = new();
+        var value = fixture.Create<int>();
+
+        var validator = new ValueValidator<int>(value);
+    
+        // When
+        validator.AddError(error: null);
+
+        // Then
+        Assert.False(validator.IsValid());
+        Assert.Single(validator.Errors);
+
+        Assert.Equal(ErrorResponse.InvalidTypeDefaultMessage, validator.Errors[0].ErrorMessage());
+    }
+
     [Fact(DisplayName = "TVV-3.01: Add message error to validator.")]
     public void AddErrorMessageToValidator()
     {
@@ -151,7 +170,7 @@ public class ValueValidatorTests
         var validator = new ValueValidator<int>(value);
     
         // When
-        validator.AddError("");
+        validator.AddError(messageError: null);
 
         // Then
         Assert.False(validator.IsValid());

@@ -8,10 +8,10 @@ public class ValueValidator<T>(T value) : IValueValidator<T>
     public List<ErrorResponse> Errors {get; private set;} = [];
     public bool IsValid() => Errors.Count == 0;
 
-    public void AddError(string messageError)
+    public void AddError(string? messageError)
     => Errors.Add(ErrorResponse.InvalidTypeError(messageError));
     
-    public void AddError(ErrorResponse error)
+    public void AddError(ErrorResponse? error)
     {
         if (error is null) 
             Errors.Add(ErrorResponse.InvalidTypeError());
