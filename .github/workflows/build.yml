@@ -24,6 +24,11 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '9.0'
+      
+      - name: Configure access to github packages
+        run: |
+          echo "GH_USERNAME=${{ secrets.GH_USERNAME }}" >> $GITHUB_ENV
+          echo "GH_TOKEN=${{ secrets.GH_TOKEN }}" >> $GITHUB_ENV
 
       - name: Restore dependencies
         run: dotnet restore
@@ -45,6 +50,11 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '9.0'
+
+      - name: Configure access to github packages
+        run: |
+          echo "GH_USERNAME=${{ secrets.GH_USERNAME }}" >> $GITHUB_ENV
+          echo "GH_TOKEN=${{ secrets.GH_TOKEN }}" >> $GITHUB_ENV
       
       - name: Restore dependencies
         run: dotnet restore
