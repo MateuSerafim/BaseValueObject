@@ -233,4 +233,80 @@ public class ValueValidatorIntegerExtensions
         Assert.Equal(IntegerValidatorExtensions.NotNegativeErrorMessage, 
                      validator.Errors[0].ErrorMessage());
     }
+
+    [Theory(DisplayName = "VV-Int-T-5.01: integer old is validated.")]
+    [InlineData(-3)]
+    [InlineData(-1)]
+    [InlineData(1)]
+    [InlineData(3)]
+    [InlineData(5)]
+    public void ValidatorSetOddRuleTest1(int number)
+    {    
+        // When
+        IValueValidator<int> validator = 
+        new ValueValidator<int>(number).SetOddMandatory();
+    
+        // Then
+        Assert.Equal(number, validator.Value);
+        Assert.True(validator.IsValid());
+        Assert.Empty(validator.Errors);
+    }
+
+    [Theory(DisplayName = "VV-Int-T-5.02: integer even is invalidated.")]
+    [InlineData(-4)]
+    [InlineData(-2)]
+    [InlineData(0)]
+    [InlineData(2)]
+    [InlineData(4)]
+    public void ValidatorSetOddRuleTest2(int number)
+    {    
+        // When
+        IValueValidator<int> validator = 
+        new ValueValidator<int>(number).SetOddMandatory();
+    
+        // Then
+        Assert.Equal(number, validator.Value);
+        Assert.False(validator.IsValid());
+        Assert.Single(validator.Errors);
+        Assert.Equal(IntegerValidatorExtensions.NotOddErrorMessage, 
+                     validator.Errors[0].ErrorMessage());
+    }
+
+    [Theory(DisplayName = "VV-Int-T-6.01: integer even is validated.")]
+    [InlineData(-4)]
+    [InlineData(-2)]
+    [InlineData(0)]
+    [InlineData(2)]
+    [InlineData(4)]
+    public void ValidatorSetEvenRuleTest1(int number)
+    {    
+        // When
+        IValueValidator<int> validator = 
+        new ValueValidator<int>(number).SetEvenMandatory();
+    
+        // Then
+        Assert.Equal(number, validator.Value);
+        Assert.True(validator.IsValid());
+        Assert.Empty(validator.Errors);
+    }
+
+    [Theory(DisplayName = "VV-Int-T-6.02: integer old is invalidated.")]
+    [InlineData(-3)]
+    [InlineData(-1)]
+    [InlineData(1)]
+    [InlineData(3)]
+    [InlineData(5)]
+    public void ValidatorSetEvenRuleTest2(int number)
+    {    
+        // When
+        IValueValidator<int> validator = 
+        new ValueValidator<int>(number).SetEvenMandatory();
+    
+        // Then
+        Assert.Equal(number, validator.Value);
+        Assert.False(validator.IsValid());
+        Assert.Single(validator.Errors);
+        Assert.Equal(IntegerValidatorExtensions.NotOddErrorMessage, 
+                     validator.Errors[0].ErrorMessage());
+    }
 }

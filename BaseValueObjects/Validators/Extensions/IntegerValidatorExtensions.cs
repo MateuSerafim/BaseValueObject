@@ -41,4 +41,24 @@ public static class IntegerValidatorExtensions
             validator.AddError(ErrorResponse.InvalidTypeError(errorMessage));
         return validator;
     }
+
+    public const string NotOddErrorMessage = "The value need be odd.";
+    public static IValueValidator<int> SetOddMandatory(this IValueValidator<int> validator, 
+    string errorMessage = NotOddErrorMessage)
+    {
+        decimal divisionRest = Math.Round(validator.Value % (decimal)2.0);
+        if (divisionRest == 0)
+            validator.AddError(ErrorResponse.InvalidTypeError(errorMessage));
+        return validator;
+    }
+
+    public const string NotEvenErrorMessage = "The value need be even.";
+    public static IValueValidator<int> SetEvenMandatory(this IValueValidator<int> validator, 
+    string errorMessage = NotOddErrorMessage)
+    {
+        decimal divisionRest = Math.Round(validator.Value % (decimal)2.0);
+        if (divisionRest != 0)
+            validator.AddError(ErrorResponse.InvalidTypeError(errorMessage));
+        return validator;
+    }
 }
